@@ -3,6 +3,7 @@ import Head from "next/head";
 
 import "../styles/globals.css";
 import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
+import { BoardProvider } from "@/contexts/BoardContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +14,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GameHistoryProvider>
-        <Component {...pageProps} />
+        <BoardProvider>
+          <Component {...pageProps} />
+        </BoardProvider>
       </GameHistoryProvider>
     </>
   );

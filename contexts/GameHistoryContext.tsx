@@ -4,30 +4,32 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Load data from localStorage
 const loadGameData = (): {
-  dailyPuzzle: Puzzle | null;
+  currentPuzzle: Puzzle | null;
   pastPuzzles: Puzzle[];
 } => {
-  const dailyPuzzle = JSON.parse(
-    localStorage.getItem("dailyPuzzle") || "null"
+  const currentPuzzle = JSON.parse(
+    localStorage.getItem("currentPuzzle") || "null"
   ) as Puzzle | null;
   const pastPuzzles = JSON.parse(
     localStorage.getItem("pastPuzzles") || "[]"
   ) as Puzzle[];
-  return { dailyPuzzle, pastPuzzles };
+  return { currentPuzzle, pastPuzzles };
 };
 
 // Save game data to localStorage
 const saveGameData = (
-  dailyPuzzle: Puzzle | null,
-  pastPuzzles: Puzzle[]
+  currentPuzzle: Puzzle | null,
+  pastPuzzles?: Puzzle[]
 ): void => {
-  localStorage.setItem("dailyPuzzle", JSON.stringify(dailyPuzzle));
-  localStorage.setItem("pastPuzzles", JSON.stringify(pastPuzzles));
+  localStorage.setItem("currentPuzzle", JSON.stringify(currentPuzzle));
+  if (pastPuzzles) {
+    localStorage.setItem("pastPuzzles", JSON.stringify(pastPuzzles));
+  }
 };
 
 // Context type
 interface GameHistoryContextType {
-  dailyPuzzle: Puzzle | null;
+  currentPuzzle: Puzzle | null;
   pastPuzzles: Puzzle[];
   updatePuzzleState: (updatedPuzzle: Puzzle) => void;
   generateNewPuzzle: () => void;
@@ -44,20 +46,20 @@ export const GameHistoryProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [dailyPuzzle, setDailyPuzzle] = useState<Puzzle | null>(null);
+  const [currentPuzzle, setCurrentPuzzle] = useState<Puzzle | null>(null);
   const [pastPuzzles, setPastPuzzles] = useState<Puzzle[]>([]);
 
   useEffect(() => {
     // Load game data from localStorage on mount
-    const { dailyPuzzle: loadedPuzzle, pastPuzzles: loadedPastPuzzles } =
+    const { currentPuzzle: loadedPuzzle, pastPuzzles: loadedPastPuzzles } =
       loadGameData();
 
     if (loadedPuzzle) {
-      setDailyPuzzle(loadedPuzzle);
+      setCurrentPuzzle(loadedPuzzle);
     } else {
       // Start with the first predefined puzzle
       const newPuzzle = predefinedPuzzles[0];
-      setDailyPuzzle(newPuzzle);
+      setCurrentPuzzle(newPuzzle);
       saveGameData(newPuzzle, loadedPastPuzzles); // Save new puzzle to localStorage
     }
 
@@ -66,19 +68,24 @@ export const GameHistoryProvider = ({
 
   const updatePuzzleState = (updatedPuzzle: Puzzle) => {
     // Update the current daily puzzle and save to localStorage
-    setDailyPuzzle(updatedPuzzle);
-    saveGameData(updatedPuzzle, pastPuzzles);
+    setCurrentPuzzle(updatedPuzzle);
+    saveGameData(updatedPuzzle);
   };
 
   const generateNewPuzzle = () => {
-    if (dailyPuzzle?.state === "succeeded" || dailyPuzzle?.state === "failed") {
+    if (
+      currentPuzzle?.state === "succeeded" ||
+      currentPuzzle?.state === "failed"
+    ) {
       // Move the current puzzle to history
-      const updatedPastPuzzles = [...pastPuzzles, dailyPuzzle];
+      const updatedPastPuzzles = [...pastPuzzles, currentPuzzle];
       const nextPuzzleIndex =
-        dailyPuzzle.index! < predefinedPuzzles.length ? dailyPuzzle.index! : 0;
+        currentPuzzle.index! < predefinedPuzzles.length
+          ? currentPuzzle.index!
+          : 0;
       const newPuzzle = predefinedPuzzles[nextPuzzleIndex];
 
-      setDailyPuzzle(newPuzzle);
+      setCurrentPuzzle(newPuzzle);
       setPastPuzzles(updatedPastPuzzles);
 
       saveGameData(newPuzzle, updatedPastPuzzles); // Save updated data to localStorage
@@ -91,7 +98,12 @@ export const GameHistoryProvider = ({
 
   return (
     <GameHistoryContext.Provider
-      value={{ dailyPuzzle, pastPuzzles, updatePuzzleState, generateNewPuzzle }}
+      value={{
+        currentPuzzle,
+        pastPuzzles,
+        updatePuzzleState,
+        generateNewPuzzle,
+      }}
     >
       {children}
     </GameHistoryContext.Provider>

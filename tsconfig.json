@@ -15,6 +15,7 @@
     "paths": {
       "@/*": ["./*"]
     },
+    "target": "es2015",
     "noImplicitAny": false // Optionally, allow implicit `any` types
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
