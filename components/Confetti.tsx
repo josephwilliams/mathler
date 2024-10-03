@@ -6,13 +6,13 @@ const GameResultConfetti: React.FC = () => {
   const { currentPuzzle } = useGameHistory();
 
   useEffect(() => {
-    if (currentPuzzle.state === "succeeded") {
+    if (currentPuzzle?.state === "succeeded") {
       setIsCelebrating(true);
       setTimeout(() => {
         setIsCelebrating(false);
       }, 8000);
     }
-  }, [currentPuzzle.state]);
+  }, [currentPuzzle?.state]);
 
   const [isCelebrating, setIsCelebrating] = useState(false);
 

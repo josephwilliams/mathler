@@ -1,17 +1,17 @@
 import React from "react";
 import { useBoard } from "../contexts/BoardContext";
 import Tile from "./Tile";
+import GameResultConfetti from "@/components/Confetti";
 
 const Board: React.FC = () => {
   const { boardValues, currentPuzzle, currentRowIndex } = useBoard();
-  console.log("> currentRowIndex", currentRowIndex);
 
   return (
     currentPuzzle && (
       <div className="bg-white shadow-lg p-5 rounded-md flex flex-col gap-3">
         <div className="text-sm">
           Find the hidden calculation that equals{" "}
-          <span className="font-bold bg-yellow-200 px-2 py-1">
+          <span className="font-bold bg-yellow-200 px-2 py-1 rounded-md">
             {currentPuzzle.targetNumber}
           </span>
         </div>
@@ -29,7 +29,12 @@ const Board: React.FC = () => {
                   <Tile
                     key={tileIndex}
                     tileValue={tileValue}
-                    isCompletedRow={rowIndex < currentRowIndex}
+                    isCompletedRow={
+                      tileValue !== "" &&
+                      (rowIndex < currentRowIndex ||
+                        currentPuzzle.state === "succeeded" ||
+                        currentPuzzle.state === "failed")
+                    }
                     isCorrectlyPlacedValue={
                       tileValue === currentPuzzle.solutionEquation[tileIndex]
                     }
@@ -43,6 +48,7 @@ const Board: React.FC = () => {
             </div>
           ))}
         </div>
+        <GameResultConfetti />
       </div>
     )
   );

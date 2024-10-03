@@ -10,7 +10,7 @@ interface BoardContextType {
   submitAttempt: () => void;
   currentPuzzle: Puzzle; // Add the currentPuzzle here to access it in the board
   boardDifficulty: PuzzleDifficulty;
-  updateBoardDifficulty: (PuzzleDifficulty) => void;
+  updateBoardDifficulty: (difficulty: PuzzleDifficulty) => void;
 }
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);

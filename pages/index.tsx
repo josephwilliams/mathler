@@ -3,15 +3,14 @@ import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
 import { BoardProvider } from "@/contexts/BoardContext";
 import InputGrid from "@/components/InputGrid";
 import Board from "@/components/Board";
-import GameResultConfetti from "@/components/Confetti";
+import BoardHeader from "@/components/BoardHeader";
 
 export default function Home() {
   return (
     <GameHistoryProvider>
       <BoardProvider>
-        <div className="flex flex-col justify-center items-center p-3 m-0-auto min-h-screen max-h-screen">
-          <h1>Mathler. For Dynamic, by Joseph.</h1>
-
+        <div className="flex flex-col justify-center items-center p-3 m-0-auto min-h-screen gap-3">
+          <BoardHeader />
           <Board />
           <InputGrid />
 
@@ -23,8 +22,6 @@ export default function Home() {
             Github
           </Link>
         </div>
-
-        <GameResultConfetti />
       </BoardProvider>
     </GameHistoryProvider>
   );
