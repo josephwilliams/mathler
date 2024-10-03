@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useGameHistory } from "./GameHistoryContext"; // Import the GameHistoryContext
-import { Puzzle } from "@/lib/puzzles";
+import { Puzzle, PuzzleState } from "@/lib/puzzles";
 
 interface BoardContextType {
   boardValues: string[][];
@@ -13,18 +13,22 @@ interface BoardContextType {
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
 
-export const BoardProvider: React.FC = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const { currentPuzzle } = useGameHistory(); // Pull the currentPuzzle from GameHistoryContext
+export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
+  // NOTE: Get currentPuzzle from localStorage.
+  const { currentPuzzle, updatePuzzleState } = useGameHistory();
+
+  // NOTE: Filling all initial board positions in order to ensure rendering of all empty spaces.
   const [boardValues, setBoardValues] = useState<string[][]>([
     Array(6).fill(""),
-  ]); // Start with one row of 6 length
+    Array(6).fill(""),
+    Array(6).fill(""),
+    Array(6).fill(""),
+    Array(6).fill(""),
+    Array(6).fill(""),
+  ]);
+
   const [currentRowIndex, setCurrentRowIndex] = useState(0);
 
-  // Function to add a value to the board
   const addTileValue = (value: string) => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
@@ -38,36 +42,48 @@ export const BoardProvider: React.FC = ({
     });
   };
 
-  // Function to delete the last value from the current row
   const deletePreviousTileValue = () => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
       const currentRow = [...newBoard[currentRowIndex]];
       const lastFilledIndex = currentRow.lastIndexOf("");
+      console.log("> lastFilledIndex", lastFilledIndex);
       const targetIndex = lastFilledIndex === -1 ? 5 : lastFilledIndex - 1;
+      console.log("> targetIndex", targetIndex);
       currentRow[targetIndex] = "";
       newBoard[currentRowIndex] = currentRow;
       return newBoard;
     });
   };
 
-  // Function to submit the current attempt
   const submitAttempt = () => {
-    const attemptString = boardValues[currentRowIndex].join(" ");
+    let puzzleState: PuzzleState = "ongoing";
+
+    const attemptString = boardValues[currentRowIndex].join("");
+    // Ensure that all 6 tiles are filled before checking attempt
+    if (attemptString.length !== 6) {
+      console.log("Please fill all 6 tiles before submitting your attempt.");
+      return;
+    }
 
     // Compare the board values to the current puzzle's solution equation
-    const solutionString = currentPuzzle?.solutionEquation.join(" ");
+    const solutionString = currentPuzzle?.solutionEquation.join("");
     if (attemptString === solutionString) {
       console.log("Success! Your attempt matches the solution.");
-      // Mark the puzzle as succeeded, if necessary
+      puzzleState = "succeeded";
+    } else if (currentRowIndex === 5) {
+      console.log("Failure! You have no remaining attempts.");
+      puzzleState = "failed";
     } else {
       console.log("Incorrect attempt.");
-      // Move to the next row for another attempt
-      if (currentRowIndex < 5) {
-        setBoardValues((prevBoard) => [...prevBoard, Array(6).fill("")]);
-        setCurrentRowIndex(currentRowIndex + 1);
-      }
+      setBoardValues((prevBoard) => [...prevBoard, Array(6).fill("")]);
+      setCurrentRowIndex(currentRowIndex + 1);
     }
+
+    updatePuzzleState({
+      ...currentPuzzle,
+      state: puzzleState,
+    });
   };
 
   return (

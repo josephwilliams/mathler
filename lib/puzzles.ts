@@ -1,15 +1,20 @@
+export type PuzzleState = "idle" | "ongoing" | "succeeded" | "failed";
+export type PuzzleDifficulty = "normal" | "hard";
+
 export type Puzzle = {
   targetNumber: number;
   index: number | null;
   solutionEquation: (number | string)[]; // Array representing numbers and operators
-  state: "idle" | "ongoing" | "succeeded" | "failed";
+  state: PuzzleState;
   attempts: string[]; // Array to track attempts made by the user
+  difficulty?: PuzzleDifficulty;
 };
 
 export const createPuzzle = (
   targetNumber: number,
   index: number | null,
-  solutionEquation: (number | string)[]
+  solutionEquation: (number | string)[],
+  difficulty = "normal" as "normal" | "hard"
 ): Puzzle => {
   return {
     targetNumber,
@@ -17,5 +22,6 @@ export const createPuzzle = (
     solutionEquation,
     state: "idle",
     attempts: [],
+    difficulty,
   };
 };

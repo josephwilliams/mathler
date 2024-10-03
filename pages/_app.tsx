@@ -2,8 +2,6 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import "../styles/globals.css";
-import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
-import { BoardProvider } from "@/contexts/BoardContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,11 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="Like Wordle, but with numbers." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GameHistoryProvider>
-        <BoardProvider>
-          <Component {...pageProps} />
-        </BoardProvider>
-      </GameHistoryProvider>
+
+      <Component {...pageProps} />
     </>
   );
 }
