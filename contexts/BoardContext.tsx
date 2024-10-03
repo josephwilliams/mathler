@@ -33,6 +33,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   // NOTE: Filling all initial board positions in order to ensure rendering of all empty spaces.
+  // TODO: Fill initial board positions based on "loaded" puzzle from localStorage.
   const [boardValues, setBoardValues] = useState<string[][]>([
     Array(6).fill(""),
     Array(6).fill(""),
@@ -44,15 +45,27 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [currentRowIndex, setCurrentRowIndex] = useState(0);
 
+  // NOTE: This is deprecated and I'm now allowing anything but I thought I'd leave
+  // it just to note some of the thought processes while coding this.
+  //
+  // NOTE: A few rules involving adding tile values
+  // 1. Prevent adding more than 6 values to a row
+  // 2. Neither the first nor last element can be a non-num character,
+  // note that this would not be true if we allowed parentheses.
+  // 3. Non-num chars (operators) cannot be one after another. There
+  // must be a number char between them.
   const addTileValue = (value: string) => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
       const currentRow = [...newBoard[currentRowIndex]];
       const firstEmptyIndex = currentRow.indexOf("");
+
+      // Ensure row isn't full. This will be the only condition applied.
       if (firstEmptyIndex !== -1) {
         currentRow[firstEmptyIndex] = value;
         newBoard[currentRowIndex] = currentRow;
       }
+
       return newBoard;
     });
   };
@@ -61,10 +74,18 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
       const currentRow = [...newBoard[currentRowIndex]];
-      const lastFilledIndex = currentRow.lastIndexOf("");
-      console.log("> lastFilledIndex", lastFilledIndex);
-      const targetIndex = lastFilledIndex === -1 ? 5 : lastFilledIndex - 1;
-      console.log("> targetIndex", targetIndex);
+
+      // Find first unfilled index, i.e. index that isn't a num or character.
+      const firstUnfilledIndex = currentRow.findIndex((i) => i === "");
+
+      // The "targetIndex" to delete will be index previous to that one.
+      // In the case that firstUnfilledIndex result is -1, i.e. not found,
+      // then we remove the last item, finding this by subtracting 1 from the length.
+      const targetIndex =
+        firstUnfilledIndex === -1
+          ? newBoard[currentRowIndex].length - 1
+          : firstUnfilledIndex - 1;
+
       currentRow[targetIndex] = "";
       newBoard[currentRowIndex] = currentRow;
       return newBoard;
@@ -82,7 +103,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     // Compare the board values to the current puzzle's solution equation
-    const solutionString = currentPuzzle?.solutionEquation.join("");
+    const solutionString = currentPuzzle?.solutionEquation;
     if (attemptString === solutionString) {
       console.log("Success! Your attempt matches the solution.");
       puzzleState = "succeeded";
@@ -91,7 +112,6 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
       puzzleState = "failed";
     } else {
       console.log("Incorrect attempt.");
-      setBoardValues((prevBoard) => [...prevBoard, Array(6).fill("")]);
       setCurrentRowIndex(currentRowIndex + 1);
     }
 

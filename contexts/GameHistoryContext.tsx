@@ -73,10 +73,9 @@ export const GameHistoryProvider = ({
   };
 
   const generateNewPuzzle = () => {
-    if (
-      currentPuzzle?.state === "succeeded" ||
-      currentPuzzle?.state === "failed"
-    ) {
+    const isGameOver =
+      currentPuzzle?.state === "succeeded" || currentPuzzle?.state === "failed";
+    if (isGameOver) {
       // Move the current puzzle to history
       const updatedPastPuzzles = [...pastPuzzles, currentPuzzle];
       const nextPuzzleIndex =

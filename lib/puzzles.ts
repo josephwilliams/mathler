@@ -4,7 +4,7 @@ export type PuzzleDifficulty = "normal" | "hard";
 export type Puzzle = {
   targetNumber: number;
   index: number | null;
-  solutionEquation: (number | string)[]; // Array representing numbers and operators
+  solutionEquation: string; // Array representing numbers and operators
   state: PuzzleState;
   attempts: string[]; // Array to track attempts made by the user
   difficulty?: PuzzleDifficulty;
@@ -13,7 +13,7 @@ export type Puzzle = {
 export const createPuzzle = (
   targetNumber: number,
   index: number | null,
-  solutionEquation: (number | string)[],
+  solutionEquation: string,
   difficulty = "normal" as "normal" | "hard"
 ): Puzzle => {
   return {

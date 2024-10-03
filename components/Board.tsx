@@ -3,8 +3,8 @@ import { useBoard } from "../contexts/BoardContext";
 import Tile from "./Tile";
 
 const Board: React.FC = () => {
-  const { boardValues, currentPuzzle } = useBoard();
-  console.log("> boardValues", boardValues);
+  const { boardValues, currentPuzzle, currentRowIndex } = useBoard();
+  console.log("> currentRowIndex", currentRowIndex);
 
   return (
     currentPuzzle && (
@@ -18,14 +18,28 @@ const Board: React.FC = () => {
         <div className="grid grid-rows-6 gap-2">
           {boardValues.map((rowValues, rowIndex) => (
             <div key={rowIndex} className="grid grid-cols-6 gap-2">
-              {rowValues.map((tileValue, tileIndex) => (
-                <Tile
-                  key={tileIndex}
-                  tileValue={tileValue}
-                  tileIndex={tileIndex}
-                  rowIndex={tileIndex}
-                />
-              ))}
+              {rowValues.map((tileValue, tileIndex) => {
+                const isCurrentRow = rowIndex === currentPuzzle.index;
+                // Active tile is the first empty tile in the current row.
+                const isActiveTile =
+                  isCurrentRow && rowValues.indexOf("") === tileIndex;
+                return (
+                  // NOTE: The tile itself shouldn't have to do any internal logic,
+                  // it's a stateless component that just displays the tile value/state.
+                  <Tile
+                    key={tileIndex}
+                    tileValue={tileValue}
+                    isCompletedRow={rowIndex < currentRowIndex}
+                    isCorrectlyPlacedValue={
+                      tileValue === currentPuzzle.solutionEquation[tileIndex]
+                    }
+                    isValueInSolution={currentPuzzle.solutionEquation.includes(
+                      tileValue
+                    )}
+                    isActiveTile={isActiveTile}
+                  />
+                );
+              })}
             </div>
           ))}
         </div>

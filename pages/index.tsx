@@ -3,6 +3,7 @@ import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
 import { BoardProvider } from "@/contexts/BoardContext";
 import InputGrid from "@/components/InputGrid";
 import Board from "@/components/Board";
+import GameResultConfetti from "@/components/Confetti";
 
 export default function Home() {
   return (
@@ -22,6 +23,8 @@ export default function Home() {
             Github
           </Link>
         </div>
+
+        <GameResultConfetti />
       </BoardProvider>
     </GameHistoryProvider>
   );
