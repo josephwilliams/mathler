@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useGameHistory } from "./GameHistoryContext"; // Import the GameHistoryContext
-import { Puzzle, PuzzleState } from "@/lib/puzzles";
+import { Puzzle, PuzzleDifficulty, PuzzleState } from "@/lib/puzzles";
 
 interface BoardContextType {
   boardValues: string[][];
@@ -9,6 +9,8 @@ interface BoardContextType {
   deletePreviousTileValue: () => void;
   submitAttempt: () => void;
   currentPuzzle: Puzzle; // Add the currentPuzzle here to access it in the board
+  boardDifficulty: PuzzleDifficulty;
+  updateBoardDifficulty: (PuzzleDifficulty) => void;
 }
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
@@ -16,6 +18,19 @@ const BoardContext = createContext<BoardContextType | undefined>(undefined);
 export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   // NOTE: Get currentPuzzle from localStorage.
   const { currentPuzzle, updatePuzzleState } = useGameHistory();
+
+  const [boardDifficulty, setBoardDifficulaty] =
+    useState<PuzzleDifficulty>("normal");
+
+  function updateBoardDifficulty(difficulty: PuzzleDifficulty) {
+    // NOTE: Only allow changing puzzle difficutly if puzzle is not yet begun, i.e. "idle".
+    if (
+      currentPuzzle.state === "idle" &&
+      (difficulty === "normal" || difficulty === "hard")
+    ) {
+      setBoardDifficulaty(difficulty);
+    }
+  }
 
   // NOTE: Filling all initial board positions in order to ensure rendering of all empty spaces.
   const [boardValues, setBoardValues] = useState<string[][]>([
@@ -95,6 +110,8 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         deletePreviousTileValue,
         submitAttempt,
         currentPuzzle,
+        boardDifficulty,
+        updateBoardDifficulty,
       }}
     >
       {children}
