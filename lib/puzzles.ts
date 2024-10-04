@@ -8,9 +8,6 @@ export type Puzzle = {
   state: PuzzleState;
   attempts: string[]; // Array to track attempts made by the user
   difficulty?: PuzzleDifficulty;
-  hasShownResultUI: boolean;
-  correctGuesses: number | string[];
-  incorrectGuesses: number | string[];
 };
 
 export const createPuzzle = (
@@ -26,9 +23,6 @@ export const createPuzzle = (
     state: "idle",
     attempts: [],
     difficulty,
-    hasShownResultUI: false,
-    correctGuesses: [],
-    incorrectGuesses: [],
   };
 };
 

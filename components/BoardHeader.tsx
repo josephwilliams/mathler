@@ -111,7 +111,7 @@ export function ResultBubble() {
             <div className="text-sm text-gray-500 py-1">
               {`You solved the puzzle in ${tries} tries.`}
             </div>
-            <div className="text-xs pb-1">The Solution:</div>
+            <div className="text-xs">The Solution:</div>
             <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
               {currentPuzzle.solutionEquation}
             </div>
@@ -120,7 +120,7 @@ export function ResultBubble() {
         {failed && (
           <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
             <div className="text-lg">😭 You failed!</div>
-            <div className="text-xs pb-1">The Solution:</div>
+            <div className="text-xs">The Solution:</div>
             <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
               {currentPuzzle.solutionEquation}
             </div>

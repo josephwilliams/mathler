@@ -22,6 +22,7 @@ const Board: React.FC = () => {
                 // Active tile is the first empty tile in the current row.
                 const isActiveTile =
                   isCurrentRow && rowValues.indexOf("") === tileIndex;
+
                 return (
                   // NOTE: The tile itself shouldn't have to do any internal logic,
                   // it's a stateless component that just displays the tile value/state.
@@ -35,11 +36,14 @@ const Board: React.FC = () => {
                         currentPuzzle.state === "failed")
                     }
                     isCorrectlyPlacedValue={
-                      tileValue === currentPuzzle.solutionEquation[tileIndex]
+                      String(tileValue) ===
+                      currentPuzzle.solutionEquation[tileIndex]
                     }
-                    isValueInSolution={currentPuzzle.solutionEquation.includes(
-                      tileValue
-                    )}
+                    isValueInSolution={
+                      currentPuzzle.solutionEquation.includes(
+                        String(tileValue)
+                      ) && currentPuzzle.difficulty !== "hard"
+                    }
                     isActiveTile={
                       isActiveTile &&
                       !(
