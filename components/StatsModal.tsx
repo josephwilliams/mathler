@@ -3,12 +3,15 @@ import ModalComponent from "./Modal";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 
 const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
-  const { pastPuzzles } = useGameHistory();
+  const { pastPuzzles, currentPuzzle } = useGameHistory();
+  const puzzlesToConsider = currentPuzzle
+    ? [...pastPuzzles, currentPuzzle]
+    : pastPuzzles;
 
   const attemptsDistribution = useMemo(() => {
     const counts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
 
-    pastPuzzles.forEach((puzzle) => {
+    puzzlesToConsider.forEach((puzzle) => {
       if (puzzle.state === "succeeded" || puzzle.state === "failed") {
         const attemptsCount = Math.min(puzzle.attempts.length, 6); // Limit counts to a maximum of 6 attempts
         counts[attemptsCount] = (counts[attemptsCount] || 0) + 1;
@@ -16,7 +19,7 @@ const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
     });
 
     return counts;
-  }, [pastPuzzles]);
+  }, [puzzlesToConsider]);
 
   return (
     <div className="mt-4">
@@ -44,26 +47,31 @@ const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
 };
 
 export const StatsCard: React.FC = () => {
-  const { pastPuzzles } = useGameHistory();
+  const { pastPuzzles, currentPuzzle } = useGameHistory();
+  const puzzlesToConsider = currentPuzzle
+    ? [...pastPuzzles, currentPuzzle]
+    : pastPuzzles;
 
   // Memoize total puzzles, win rate, and average attempts
   const { totalPuzzles, winRate, averageAttempts } = useMemo(() => {
-    const total = pastPuzzles.length;
+    const total = puzzlesToConsider.length;
 
-    const wins = pastPuzzles.filter(
+    const wins = puzzlesToConsider.filter(
       (puzzle) => puzzle.state === "succeeded"
     ).length;
 
     const avgAttempts =
-      pastPuzzles.reduce((acc, puzzle) => acc + puzzle.attempts.length, 0) /
-      total;
+      puzzlesToConsider.reduce(
+        (acc, puzzle) => acc + puzzle.attempts.length,
+        0
+      ) / total;
 
     return {
       totalPuzzles: total,
       winRate: total > 0 ? (wins / total) * 100 : 0,
       averageAttempts: total > 0 ? avgAttempts.toFixed(2) : 0,
     };
-  }, [pastPuzzles]);
+  }, [puzzlesToConsider]);
 
   return (
     <div>

@@ -7,27 +7,25 @@ import ConfettiExplosion from "react-confetti-explosion";
 
 function TitleBubble() {
   return (
-    <div className="bg-white shadow-lg px-2 py-1 rounded-md flex flex-col gap-3 justify-center flex-1">
-      <div>
-        <h1 className="flex items-center text-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z"
-            />
-          </svg>
-          Mathler
-        </h1>
-        <h2 className="text-xs text-gray-400">For Dynamic, by Joseph.</h2>
-      </div>
+    <div className="bg-white shadow-lg px-2 py-1 rounded-md flex flex-col justify-center flex-1">
+      <h1 className="flex items-center text-xl">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z"
+          />
+        </svg>
+        Mathler
+      </h1>
+      <h2 className="text-xs text-gray-400">For Dynamic, by Joseph.</h2>
     </div>
   );
 }
@@ -72,7 +70,7 @@ export function PlayAgainButtonBubble() {
     <div className="bg-white shadow-lg p-2 rounded-md flex flex-col justify-between">
       <button
         onClick={generateNewPuzzle}
-        className="rounded-md p-3 flex justify-center items-center font-bold bg-lime-400"
+        className="rounded-md p-3 flex justify-center items-center font-bold bg-green-600 text-white"
       >
         Play Again!
       </button>
@@ -137,7 +135,7 @@ export function ResultBubble() {
 
 export default function BoardHeader() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-full">
       <div className="flex gap-2">
         <TitleBubble />
         <StatsOpenerBubble />

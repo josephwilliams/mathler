@@ -8,7 +8,13 @@ const buttonClassName =
 
 const MathInputGrid: React.FC = () => {
   const { currentPuzzle } = useGameHistory();
-  const { addTileValue, deletePreviousTileValue, submitAttempt } = useBoard();
+  const {
+    addTileValue,
+    deletePreviousTileValue,
+    submitAttempt,
+    currentRowIndex,
+    boardValues,
+  } = useBoard();
 
   // Handle keyboard input
   useEffect(() => {
@@ -66,8 +72,7 @@ const MathInputGrid: React.FC = () => {
   return (
     currentPuzzle?.state !== "succeeded" &&
     currentPuzzle?.state !== "failed" && (
-      // NOTE: Forgive hard-coded pixel min-width but it should work in mobile viewports.
-      <div className="bg-white shadow-lg p-5 rounded-md flex flex-col gap-3">
+      <div className="w-full bg-white shadow-lg p-5 rounded-md flex flex-col gap-3">
         <div className="flex gap-2 items-center justify-between">
           {["0", "1", "2", "3", "4", "5", "6"].map((number) => (
             <button
@@ -101,7 +106,16 @@ const MathInputGrid: React.FC = () => {
         </div>
 
         <div className="flex gap-2 items-center justify-between">
-          <button className={buttonClassName} onClick={submitAttempt}>
+          <button
+            className={classNames(
+              buttonClassName,
+              // if current row is full, animate the button
+              boardValues[currentRowIndex][
+                boardValues[currentRowIndex].length - 1
+              ] !== "" && "animate-bounce"
+            )}
+            onClick={submitAttempt}
+          >
             Enter
           </button>
           <button className={buttonClassName} onClick={deletePreviousTileValue}>
