@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DifficultyToggle from "./DifficultyToggle";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
+import ModalComponent from "./Modal";
 
 function TitleBubble() {
   return (
@@ -62,7 +63,7 @@ function StatsOpenerBubble({ onClick }: { onClick: () => void }) {
 export function PlayAgainButtonBubble() {
   const { generateNewPuzzle } = useGameHistory();
   return (
-    <div className="bg-white shadow-lg p-2 px-3 rounded-md flex flex-col justify-between">
+    <div className="bg-white shadow-lg p-2 rounded-md flex flex-col justify-between">
       <button
         onClick={generateNewPuzzle}
         className="rounded-md p-3 flex justify-center items-center font-bold bg-lime-400"
@@ -80,30 +81,42 @@ export function ResultBubble() {
   const failed = currentPuzzle?.state === "failed";
   const tries = currentPuzzle?.attempts.length;
 
+  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (succeeded || failed) {
+      setIsOpen(true);
+    }
+  }, [succeeded, failed]);
+
   return (
     <>
-      {succeeded && (
-        <div className="bg-white shadow-lg px-2 py-2 rounded-md flex flex-col justify-center">
-          <div className="text-lg">🎉 Congratulations!</div>
-          <div className="text-sm text-gray-500 py-1">
-            {`You solved the puzzle in ${tries} tries.`}
+      <ModalComponent
+        title="Game Result"
+        isOpen={isOpen}
+        onClickClose={() => setIsOpen(false)}
+      >
+        {succeeded && (
+          <div className="flex flex-col justify-center px-8 py-3 pb-3 gap-1">
+            <div className="text-lg">🎉 Congratulations!</div>
+            <div className="text-sm text-gray-500 py-1">
+              {`You solved the puzzle in ${tries} tries.`}
+            </div>
+            <div className="text-xs pb-1">The Solution:</div>
+            <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
+              {currentPuzzle.solutionEquation}
+            </div>
           </div>
-          <div className="text-xs">The Solution:</div>
-          <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
-            {currentPuzzle.solutionEquation}
+        )}
+        {failed && (
+          <div className="flex flex-col justify-center px-8 py-3 pb-3 gap-1">
+            <div className="text-lg">😭 You failed!</div>
+            <div className="text-xs pb-1">The Solution:</div>
+            <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
+              {currentPuzzle.solutionEquation}
+            </div>
           </div>
-        </div>
-      )}
-      {failed && (
-        <div className="bg-green-100 text-red-800 p-2 rounded-md mt-2">
-          <div className="text-lg">😭 Booo!</div>
-          <div className="text-sm text-gray-500 py-1">You failed!</div>
-          <div className="text-xs">The Solution:</div>
-          <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
-            {currentPuzzle.solutionEquation}
-          </div>
-        </div>
-      )}
+        )}
+      </ModalComponent>
       {(succeeded || failed) && <PlayAgainButtonBubble />}
     </>
   );

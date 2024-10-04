@@ -57,10 +57,10 @@ export const GameHistoryProvider = ({
     if (loadedPuzzle) {
       setCurrentPuzzle(loadedPuzzle);
     } else {
-      // Start with the first predefined puzzle
       const newPuzzle = predefinedPuzzles[0];
       setCurrentPuzzle(newPuzzle);
-      saveGameData(newPuzzle, loadedPastPuzzles); // Save new puzzle to localStorage
+      // Save new puzzle to localStorage
+      saveGameData(newPuzzle, loadedPastPuzzles);
     }
 
     setPastPuzzles(loadedPastPuzzles);
@@ -75,12 +75,14 @@ export const GameHistoryProvider = ({
   const generateNewPuzzle = () => {
     const isGameOver =
       currentPuzzle?.state === "succeeded" || currentPuzzle?.state === "failed";
+
+    // Only allow generating a new puzzle if the current one is 'succeeded' or 'failed'
     if (isGameOver) {
       // Move the current puzzle to history
       const updatedPastPuzzles = [...pastPuzzles, currentPuzzle];
       const nextPuzzleIndex =
         currentPuzzle.index! < predefinedPuzzles.length
-          ? currentPuzzle.index!
+          ? currentPuzzle.index + 1
           : 0;
       const newPuzzle = predefinedPuzzles[nextPuzzleIndex];
 

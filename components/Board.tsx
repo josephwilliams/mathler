@@ -19,7 +19,7 @@ const Board: React.FC = () => {
           {boardValues.map((rowValues, rowIndex) => (
             <div key={rowIndex} className="grid grid-cols-6 gap-2">
               {rowValues.map((tileValue, tileIndex) => {
-                const isCurrentRow = rowIndex === currentPuzzle.index;
+                const isCurrentRow = rowIndex === currentRowIndex;
                 // Active tile is the first empty tile in the current row.
                 const isActiveTile =
                   isCurrentRow && rowValues.indexOf("") === tileIndex;

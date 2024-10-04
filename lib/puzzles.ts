@@ -8,6 +8,7 @@ export type Puzzle = {
   state: PuzzleState;
   attempts: string[]; // Array to track attempts made by the user
   difficulty?: PuzzleDifficulty;
+  hasShownResultUI: boolean;
 };
 
 export const createPuzzle = (
@@ -23,5 +24,35 @@ export const createPuzzle = (
     state: "idle",
     attempts: [],
     difficulty,
+    hasShownResultUI: false,
   };
+};
+
+export const EMPTY_BOARD_STATE = [
+  Array(6).fill(""),
+  Array(6).fill(""),
+  Array(6).fill(""),
+  Array(6).fill(""),
+  Array(6).fill(""),
+  Array(6).fill(""),
+];
+
+export const fillInEmptyBoardStateFromPreExistingAttempts = (
+  attempts: string[]
+) => {
+  console.log("> log attempts", attempts);
+  const boardState = EMPTY_BOARD_STATE.map((row) => [...row]);
+
+  if (Array.isArray(attempts) && !!attempts.length) {
+    attempts.forEach((attempt, attemptIndex) => {
+      const attemptSplit = attempt.split(",").map(Number);
+      attemptSplit.forEach((value, valueIndex) => {
+        boardState[attemptIndex][valueIndex] = Number.isNaN(value)
+          ? value
+          : Number(value);
+      });
+    });
+  }
+
+  return boardState;
 };

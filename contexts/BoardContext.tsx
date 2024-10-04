@@ -1,6 +1,18 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  use,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useGameHistory } from "./GameHistoryContext"; // Import the GameHistoryContext
-import { Puzzle, PuzzleDifficulty, PuzzleState } from "@/lib/puzzles";
+import {
+  EMPTY_BOARD_STATE,
+  fillInEmptyBoardStateFromPreExistingAttempts,
+  Puzzle,
+  PuzzleDifficulty,
+  PuzzleState,
+} from "@/lib/puzzles";
 
 interface BoardContextType {
   boardValues: string[][];
@@ -34,16 +46,28 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
   // NOTE: Filling all initial board positions in order to ensure rendering of all empty spaces.
   // TODO: Fill initial board positions based on "loaded" puzzle from localStorage.
-  const [boardValues, setBoardValues] = useState<string[][]>([
-    Array(6).fill(""),
-    Array(6).fill(""),
-    Array(6).fill(""),
-    Array(6).fill(""),
-    Array(6).fill(""),
-    Array(6).fill(""),
-  ]);
+  const [boardValues, setBoardValues] = useState<string[][]>(() => {
+    console.log(
+      "> currentPuzzle?.attempts?.length",
+      currentPuzzle?.attempts?.length
+    );
+    return currentPuzzle?.attempts?.length
+      ? fillInEmptyBoardStateFromPreExistingAttempts(currentPuzzle.attempts)
+      : EMPTY_BOARD_STATE;
+  });
+  console.log("> boardValues", boardValues);
 
-  const [currentRowIndex, setCurrentRowIndex] = useState(0);
+  const [currentRowIndex, setCurrentRowIndex] = useState(() => {
+    return currentPuzzle?.attempts?.length
+      ? currentPuzzle?.attempts?.length + 1
+      : 0;
+  });
+
+  // if currentPuzzle changes, reset the boardValues and currentRowIndex
+  useEffect(() => {
+    setBoardValues(EMPTY_BOARD_STATE);
+    setCurrentRowIndex(0);
+  }, [currentPuzzle?.index]);
 
   // NOTE: This is deprecated and I'm now allowing anything but I thought I'd leave
   // it just to note some of the thought processes while coding this.
@@ -117,6 +141,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
     updatePuzzleState({
       ...currentPuzzle,
+      attempts: [...currentPuzzle.attempts, attemptString],
       state: puzzleState,
     });
   };
