@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import DifficultyToggle from "./DifficultyToggle";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 import ModalComponent from "./Modal";
+import { StatsModal } from "./StatsModal";
+import ConfettiExplosion from "react-confetti-explosion";
 
 function TitleBubble() {
   return (
@@ -30,33 +32,37 @@ function TitleBubble() {
   );
 }
 
-function StatsOpenerBubble({ onClick }: { onClick: () => void }) {
+function StatsOpenerBubble() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <button
-      onClick={onClick}
-      className="bg-white shadow-lg p-2 px-3 rounded-md flex flex-col justify-between"
-    >
-      <div className="text-xs font-medium text-gray-400">Stats</div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="size-6"
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="bg-white shadow-lg p-2 px-3 rounded-md flex flex-col justify-between"
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"
-        />
-      </svg>
-    </button>
+        <div className="text-xs font-medium text-gray-400">Stats</div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"
+          />
+        </svg>
+      </button>
+      <StatsModal isOpen={isOpen} onClickClose={() => setIsOpen(false)} />
+    </>
   );
 }
 
@@ -76,7 +82,7 @@ export function PlayAgainButtonBubble() {
 
 export function ResultBubble() {
   const { currentPuzzle } = useGameHistory();
-  console.log("> currentPuzzle", currentPuzzle);
+
   const succeeded = currentPuzzle?.state === "succeeded";
   const failed = currentPuzzle?.state === "failed";
   const tries = currentPuzzle?.attempts.length;
@@ -96,7 +102,11 @@ export function ResultBubble() {
         onClickClose={() => setIsOpen(false)}
       >
         {succeeded && (
-          <div className="flex flex-col justify-center px-8 py-3 pb-3 gap-1">
+          <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
+            <div className="flex items-center justify-center">
+              <ConfettiExplosion />
+            </div>
+
             <div className="text-lg">🎉 Congratulations!</div>
             <div className="text-sm text-gray-500 py-1">
               {`You solved the puzzle in ${tries} tries.`}
@@ -108,7 +118,7 @@ export function ResultBubble() {
           </div>
         )}
         {failed && (
-          <div className="flex flex-col justify-center px-8 py-3 pb-3 gap-1">
+          <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
             <div className="text-lg">😭 You failed!</div>
             <div className="text-xs pb-1">The Solution:</div>
             <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
@@ -123,20 +133,13 @@ export function ResultBubble() {
 }
 
 export default function BoardHeader() {
-  const [isOpenStats, setIsOpenStats] = useState(false);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-2">
         <TitleBubble />
-        <StatsOpenerBubble onClick={() => setIsOpenStats(!isOpenStats)} />
+        <StatsOpenerBubble />
         <DifficultyToggle />
       </div>
-      {isOpenStats && (
-        <div className="bg-white shadow-lg p-2 rounded-md mt-2">
-          <div className="text-xs text-gray-400">Stats</div>
-          <div className="text-xs">Coming soon...</div>
-        </div>
-      )}
       <ResultBubble />
     </div>
   );

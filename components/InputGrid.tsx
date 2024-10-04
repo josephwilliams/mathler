@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useBoard } from "../contexts/BoardContext";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 

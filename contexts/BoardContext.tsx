@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  use,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useGameHistory } from "./GameHistoryContext"; // Import the GameHistoryContext
 import {
   EMPTY_BOARD_STATE,
@@ -45,28 +39,21 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   // NOTE: Filling all initial board positions in order to ensure rendering of all empty spaces.
-  // TODO: Fill initial board positions based on "loaded" puzzle from localStorage.
-  const [boardValues, setBoardValues] = useState<string[][]>(() => {
-    console.log(
-      "> currentPuzzle?.attempts?.length",
-      currentPuzzle?.attempts?.length
-    );
-    return currentPuzzle?.attempts?.length
-      ? fillInEmptyBoardStateFromPreExistingAttempts(currentPuzzle.attempts)
-      : EMPTY_BOARD_STATE;
-  });
-  console.log("> boardValues", boardValues);
+  const [boardValues, setBoardValues] = useState<string[][]>(EMPTY_BOARD_STATE);
+  const [currentRowIndex, setCurrentRowIndex] = useState(0);
 
-  const [currentRowIndex, setCurrentRowIndex] = useState(() => {
-    return currentPuzzle?.attempts?.length
-      ? currentPuzzle?.attempts?.length + 1
-      : 0;
-  });
-
-  // if currentPuzzle changes, reset the boardValues and currentRowIndex
+  // if currentPuzzle changes, update to that puzzle's attempts or reset the boardValues and currentRowIndex
   useEffect(() => {
-    setBoardValues(EMPTY_BOARD_STATE);
-    setCurrentRowIndex(0);
+    setBoardValues(() => {
+      return currentPuzzle?.attempts?.length
+        ? fillInEmptyBoardStateFromPreExistingAttempts(currentPuzzle.attempts)
+        : EMPTY_BOARD_STATE;
+    });
+    setCurrentRowIndex(() => {
+      return currentPuzzle?.attempts?.length
+        ? currentPuzzle?.attempts?.length
+        : 0;
+    });
   }, [currentPuzzle?.index]);
 
   // NOTE: This is deprecated and I'm now allowing anything but I thought I'd leave

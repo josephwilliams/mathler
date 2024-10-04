@@ -9,6 +9,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 12,
@@ -17,6 +19,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 17,
@@ -25,6 +29,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 21,
@@ -33,6 +39,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 39,
@@ -41,6 +49,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 65,
@@ -49,6 +59,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 72,
@@ -57,6 +69,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 32,
@@ -65,6 +79,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 27,
@@ -73,6 +89,8 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
   {
     targetNumber: 73,
@@ -81,5 +99,7 @@ export const predefinedPuzzles: Puzzle[] = [
     state: "idle",
     attempts: [],
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   },
 ];

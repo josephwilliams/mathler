@@ -66,6 +66,8 @@ export const GameHistoryProvider = ({
     setPastPuzzles(loadedPastPuzzles);
   }, []);
 
+  console.log("> game history currentPuzzle", currentPuzzle);
+
   const updatePuzzleState = (updatedPuzzle: Puzzle) => {
     // Update the current daily puzzle and save to localStorage
     setCurrentPuzzle(updatedPuzzle);

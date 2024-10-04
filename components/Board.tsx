@@ -1,7 +1,6 @@
 import React from "react";
 import { useBoard } from "../contexts/BoardContext";
 import Tile from "./Tile";
-import GameResultConfetti from "@/components/Confetti";
 
 const Board: React.FC = () => {
   const { boardValues, currentPuzzle, currentRowIndex } = useBoard();
@@ -41,14 +40,19 @@ const Board: React.FC = () => {
                     isValueInSolution={currentPuzzle.solutionEquation.includes(
                       tileValue
                     )}
-                    isActiveTile={isActiveTile}
+                    isActiveTile={
+                      isActiveTile &&
+                      !(
+                        currentPuzzle.state === "succeeded" ||
+                        currentPuzzle.state === "failed"
+                      )
+                    }
                   />
                 );
               })}
             </div>
           ))}
         </div>
-        <GameResultConfetti />
       </div>
     )
   );

@@ -9,6 +9,8 @@ export type Puzzle = {
   attempts: string[]; // Array to track attempts made by the user
   difficulty?: PuzzleDifficulty;
   hasShownResultUI: boolean;
+  correctGuesses: number | string[];
+  incorrectGuesses: number | string[];
 };
 
 export const createPuzzle = (
@@ -25,6 +27,8 @@ export const createPuzzle = (
     attempts: [],
     difficulty,
     hasShownResultUI: false,
+    correctGuesses: [],
+    incorrectGuesses: [],
   };
 };
 
@@ -40,16 +44,15 @@ export const EMPTY_BOARD_STATE = [
 export const fillInEmptyBoardStateFromPreExistingAttempts = (
   attempts: string[]
 ) => {
-  console.log("> log attempts", attempts);
   const boardState = EMPTY_BOARD_STATE.map((row) => [...row]);
 
-  if (Array.isArray(attempts) && !!attempts.length) {
+  if (Array.isArray(attempts) && attempts.length) {
     attempts.forEach((attempt, attemptIndex) => {
-      const attemptSplit = attempt.split(",").map(Number);
-      attemptSplit.forEach((value, valueIndex) => {
-        boardState[attemptIndex][valueIndex] = Number.isNaN(value)
-          ? value
-          : Number(value);
+      const attemptSplit = attempt.split(""); // Split each character individually
+      attemptSplit.forEach((char, valueIndex) => {
+        boardState[attemptIndex][valueIndex] = isNaN(Number(char))
+          ? char
+          : Number(char); // Check if it's a valid number, otherwise use the character
       });
     });
   }
