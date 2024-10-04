@@ -68,7 +68,7 @@ export const StatsCard: React.FC = () => {
   return (
     <div>
       {/* Total puzzles, win rate, average attempts */}
-      <div className="flex justify-between my-4">
+      <div className="flex justify-between my-4 gap-3">
         <div className="flex flex-col items-center">
           <p className="text-xs font-thin text-gray-500">Total Puzzles</p>
           <p className="font-bold text-xl">{totalPuzzles}</p>
@@ -82,8 +82,12 @@ export const StatsCard: React.FC = () => {
           <p className="font-bold text-xl">{averageAttempts}</p>
         </div>
       </div>
-      {typeof totalPuzzles === "number" && totalPuzzles > 0 && (
+      {totalPuzzles > 0 ? (
         <AttemptsCountsGraph totalPuzzles={totalPuzzles} />
+      ) : (
+        <p className="text-gray-500 text-xs">
+          Play some puzzles to see your stats here!
+        </p>
       )}
     </div>
   );
