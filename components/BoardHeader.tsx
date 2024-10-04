@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DifficultyToggle from "./DifficultyToggle";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 import ModalComponent from "./Modal";
-import { StatsModal } from "./StatsModal";
+import { StatsCard, StatsModal } from "./StatsModal";
 import ConfettiExplosion from "react-confetti-explosion";
 
 function TitleBubble() {
@@ -101,31 +101,34 @@ export function ResultBubble() {
         isOpen={isOpen}
         onClickClose={() => setIsOpen(false)}
       >
-        {succeeded && (
-          <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
-            <div className="flex items-center justify-center">
-              <ConfettiExplosion />
-            </div>
+        <div className="border-b-[1px] border-dotted border-gray-300 mb-3">
+          {succeeded && (
+            <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
+              <div className="flex items-center justify-center">
+                <ConfettiExplosion />
+              </div>
 
-            <div className="text-lg">🎉 Congratulations!</div>
-            <div className="text-sm text-gray-500 py-1">
-              {`You solved the puzzle in ${tries} tries.`}
+              <div className="text-lg">🎉 Congratulations!</div>
+              <div className="text-sm text-gray-500 py-1">
+                {`You solved the puzzle in ${tries} tries.`}
+              </div>
+              <div className="text-xs">The Solution:</div>
+              <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
+                {currentPuzzle.solutionEquation}
+              </div>
             </div>
-            <div className="text-xs">The Solution:</div>
-            <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
-              {currentPuzzle.solutionEquation}
+          )}
+          {failed && (
+            <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
+              <div className="text-lg">😭 You failed!</div>
+              <div className="text-xs">The Solution:</div>
+              <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
+                {currentPuzzle.solutionEquation}
+              </div>
             </div>
-          </div>
-        )}
-        {failed && (
-          <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
-            <div className="text-lg">😭 You failed!</div>
-            <div className="text-xs">The Solution:</div>
-            <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
-              {currentPuzzle.solutionEquation}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
+        <StatsCard />
       </ModalComponent>
       {(succeeded || failed) && <PlayAgainButtonBubble />}
     </>

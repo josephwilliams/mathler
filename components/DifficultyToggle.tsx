@@ -22,7 +22,7 @@ export default function DifficultyDropdown() {
         value={boardDifficulty}
         onChange={handleSelectChange}
         className="text-xs rounded-md bg-gray-100 py-2 pl-1 pr-3 outline-none"
-        disabled={currentPuzzle.state !== "idle"}
+        disabled={currentPuzzle?.state !== "idle"}
       >
         <option value="normal">Normal</option>
         <option

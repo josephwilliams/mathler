@@ -43,7 +43,7 @@ const MathInputGrid: React.FC = () => {
     const correctSet = new Set<string>();
     const incorrectSet = new Set<string>();
 
-    const solutionChars = currentPuzzle.solutionEquation.split("");
+    const solutionChars = currentPuzzle?.solutionEquation.split("");
 
     currentPuzzle?.attempts.forEach((attempt) => {
       const attemptChars = attempt.split("");
