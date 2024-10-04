@@ -96,8 +96,6 @@ export function StatsModal({
   isOpen: boolean;
   onClickClose: () => void;
 }) {
-  const { currentPuzzle } = useGameHistory();
-
   return (
     <>
       <ModalComponent
