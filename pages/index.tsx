@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
 import { BoardProvider } from "@/contexts/BoardContext";
 import InputGrid from "@/components/InputGrid";
@@ -15,14 +14,6 @@ export default function Home() {
             <BoardHeader />
             <Board />
             <InputGrid />
-
-            <Link
-              className="text-[12px] mt-3 underline decoration-dotted text-[#386e39] flex items-center"
-              href="https://github.com/josephwilliams/mathler"
-              target="_blank"
-            >
-              Github
-            </Link>
           </div>
         </BoardProvider>
       </GameHistoryProvider>
