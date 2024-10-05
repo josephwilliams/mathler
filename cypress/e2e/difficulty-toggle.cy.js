@@ -11,9 +11,9 @@ describe("DifficultyToggle Component", () => {
         "currentPuzzle",
         JSON.stringify({
           targetNumber: 12,
-          solutionEquation: "1+5*2",
+          solutionEquation: "1+5*23",
           state: "ongoing",
-          attempts: ["1+5*2"],
+          attempts: ["1+5*21"],
         })
       );
     });
@@ -27,7 +27,7 @@ describe("DifficultyToggle Component", () => {
         "currentPuzzle",
         JSON.stringify({
           targetNumber: 12,
-          solutionEquation: "1+5*2",
+          solutionEquation: "1+5*23",
           state: "idle",
           attempts: [],
         })
@@ -47,7 +47,7 @@ describe("DifficultyToggle Component", () => {
           targetNumber: 12,
           solutionEquation: "1+5*2",
           state: "idle",
-          attempts: ["3+4*2", "1+5*1"], // These attempts have incorrect tiles
+          attempts: ["3+4*24", "1+5*14"], // These attempts have incorrect tiles
         })
       );
     });

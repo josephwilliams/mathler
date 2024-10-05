@@ -83,13 +83,22 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   const addTileValue = (value: string) => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
-      const currentRow = [...newBoard[currentRowIndex]];
-      const firstEmptyIndex = currentRow.indexOf("");
 
-      // Ensure row isn't full. This will be the only condition applied.
-      if (firstEmptyIndex !== -1) {
-        currentRow[firstEmptyIndex] = value;
-        newBoard[currentRowIndex] = currentRow;
+      // Ensure the currentRowIndex exists and has an array
+      if (newBoard[currentRowIndex]) {
+        const currentRow = [...newBoard[currentRowIndex]];
+        const firstEmptyIndex = currentRow.indexOf("");
+
+        // Ensure row isn't full
+        if (firstEmptyIndex !== -1) {
+          currentRow[firstEmptyIndex] = value;
+          newBoard[currentRowIndex] = currentRow;
+        }
+      } else {
+        console.error(
+          "Invalid currentRowIndex or undefined row:",
+          currentRowIndex
+        );
       }
 
       return newBoard;
@@ -99,7 +108,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   const deletePreviousTileValue = () => {
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
-      const currentRow = [...newBoard[currentRowIndex]];
+      const currentRow = [...newBoard?.[currentRowIndex]];
 
       // Find first unfilled index, i.e. index that isn't a num or character.
       const firstUnfilledIndex = currentRow.findIndex((i) => i === "");
@@ -121,26 +130,20 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   const submitAttempt = () => {
     let puzzleState: PuzzleState = "ongoing";
 
-    const attemptString = boardValues[currentRowIndex].join("");
+    const attemptString = boardValues[currentRowIndex]?.join("");
     // Ensure that all 6 tiles are filled before checking attempt
-    if (attemptString.length !== 6) {
-      console.log(
-        "Please fill all 6 tiles before submitting your attempt.",
-        attemptString
-      );
+    if (attemptString?.length !== 6) {
       return;
     }
 
     // Compare the board values to the current puzzle's solution equation
     const solutionString = currentPuzzle?.solutionEquation;
     if (attemptString === solutionString) {
-      console.log("Success! Your attempt matches the solution.");
       puzzleState = "succeeded";
     } else if (currentRowIndex === 5) {
-      console.log("Failure! You have no remaining attempts.");
       puzzleState = "failed";
-    } else {
-      console.log("Incorrect attempt.");
+    } else if (currentRowIndex < 5) {
+      // Move to the next row if the current row is not the last row
       setCurrentRowIndex(currentRowIndex + 1);
     }
 

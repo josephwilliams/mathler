@@ -63,7 +63,9 @@ export const StatsCard: React.FC = () => {
 
     const avgAttempts =
       puzzlesToConsider.reduce(
-        (acc, puzzle) => acc + puzzle.attempts.length,
+        // length cannot be more than 6
+        (acc, puzzle) =>
+          acc + (puzzle.attempts.length > 6 ? 6 : puzzle.attempts.length),
         0
       ) / total;
 
