@@ -3,10 +3,8 @@ import ModalComponent from "./Modal";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 
 const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
-  const { pastPuzzles, currentPuzzle } = useGameHistory();
-  const puzzlesToConsider = currentPuzzle
-    ? [...pastPuzzles, currentPuzzle]
-    : pastPuzzles;
+  const { pastPuzzles } = useGameHistory();
+  const puzzlesToConsider = pastPuzzles;
 
   const attemptsDistribution = useMemo(() => {
     const counts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
@@ -47,11 +45,9 @@ const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
 };
 
 export const StatsCard: React.FC = () => {
-  const { pastPuzzles, currentPuzzle } = useGameHistory();
+  const { pastPuzzles } = useGameHistory();
 
-  const puzzlesToConsider = currentPuzzle
-    ? [...pastPuzzles, currentPuzzle]
-    : pastPuzzles;
+  const puzzlesToConsider = pastPuzzles;
 
   // Memoize total puzzles, win rate, and average attempts
   const { totalPuzzles, winRate, averageAttempts } = useMemo(() => {

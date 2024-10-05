@@ -83,7 +83,7 @@ describe("StatsCard Component with mocked past puzzles", () => {
 
   it("calculates the win rate correctly", () => {
     cy.contains("Win Rate").should("exist");
-    cy.contains("50%").should("exist");
+    cy.contains("57%").should("exist");
   });
 
   it("calculates the average number of attempts", () => {
@@ -91,6 +91,6 @@ describe("StatsCard Component with mocked past puzzles", () => {
     // ['2*4+2', '1-1+5'], ['4+4*2'], ['5*2-1', '3*3+2'], ['3*4+2']
     // Average attempts = (1 + 2 + 1 + 1 + 2 + 1 + 2 + 1) / 8 = 1.375
     cy.contains("Average Attempts").should("exist");
-    cy.contains("1.38").should("exist"); // Rounded to two decimal places
+    cy.contains("1.43").should("exist"); // Rounded to two decimal places
   });
 });
