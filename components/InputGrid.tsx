@@ -102,10 +102,11 @@ const MathInputGrid: React.FC = () => {
             <button
               className={classNames(
                 buttonClassName,
-                correctGuesses.has(number) && "bg-green-500",
                 misplacedGuesses.has(number) &&
                   currentPuzzle?.difficulty !== "hard" &&
+                  !correctGuesses.has(number) &&
                   "bg-yellow-400",
+                correctGuesses.has(number) && "bg-green-500",
                 incorrectGuesses.has(number) && "bg-gray-400"
               )}
               key={number}
@@ -122,10 +123,11 @@ const MathInputGrid: React.FC = () => {
             <button
               className={classNames(
                 buttonClassName,
-                correctGuesses.has(operator) && "bg-green-500",
                 misplacedGuesses.has(operator) &&
                   currentPuzzle?.difficulty !== "hard" &&
+                  !correctGuesses.has(operator) &&
                   "bg-yellow-400",
+                correctGuesses.has(operator) && "bg-green-500",
                 incorrectGuesses.has(operator) && "bg-gray-400"
               )}
               key={operator}

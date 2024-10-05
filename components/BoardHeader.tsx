@@ -92,7 +92,7 @@ export function PlayAgainButtonBubble() {
     <div className="bg-white shadow-lg p-2 rounded-md flex flex-col justify-between">
       <button
         onClick={generateNewPuzzle}
-        className="rounded-md p-3 flex justify-center items-center font-bold bg-green-600 text-white"
+        className="rounded-md p-3 flex justify-center items-center font-bold bg-green-600 hover:bg-green-500 transition-colors text-white"
       >
         Play Again!
       </button>
