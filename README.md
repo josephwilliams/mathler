@@ -74,3 +74,5 @@ This command will open the Cypress dashboard, where you can run the tests in an 
 - I combined some tests that could have been separated conceptually, such as testing attempt population from local storage to tiles in the board within the board-failure test file.
 
 - Due to compatibility issues between NextJS and Cypress component tests, I ran some unit tests as part of the more "end-to-end" tests, particularly for the StatsCard and DifficultyToggle components.
+
+- Also, I deliberately did not add rules, as they were obviously understood as part of the assignment.
