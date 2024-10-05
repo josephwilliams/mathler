@@ -82,4 +82,13 @@ export const predefinedPuzzles: Puzzle[] = [
     attempts: [],
     difficulty: "normal",
   },
+  {
+    targetNumber: 4,
+    index: 0,
+    // Example with a cumulative solution of "10-3*2"
+    solutionEquation: [10, "-", 2, "*", 3].join(""),
+    state: "idle",
+    attempts: [],
+    difficulty: "normal",
+  },
 ];

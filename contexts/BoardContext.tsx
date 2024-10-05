@@ -7,6 +7,7 @@ import {
   PuzzleDifficulty,
   PuzzleState,
 } from "@/lib/puzzles";
+import { isCumulativeSolution } from "@/lib/equations";
 
 interface BoardContextType {
   boardValues: string[][];
@@ -138,7 +139,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Compare the board values to the current puzzle's solution equation
     const solutionString = currentPuzzle?.solutionEquation;
-    if (attemptString === solutionString) {
+    if (isCumulativeSolution(solutionString, attemptString)) {
       puzzleState = "succeeded";
     } else if (currentRowIndex === 5) {
       puzzleState = "failed";
@@ -149,7 +150,13 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
 
     updatePuzzleState({
       ...currentPuzzle,
-      attempts: [...currentPuzzle.attempts, attemptString],
+      attempts: [
+        ...currentPuzzle.attempts,
+        // NOTE: According to official Mathler rules, cumulative
+        // solutions are accepted but re-ordered to match the primary solution.
+        // This helps avoid confusion with tile colors and positions.
+        puzzleState === "succeeded" ? solutionString : attemptString,
+      ],
       state: puzzleState,
     });
   };
