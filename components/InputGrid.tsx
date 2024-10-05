@@ -45,20 +45,40 @@ const MathInputGrid: React.FC = () => {
   // in order to show the user which tiles they've gotten right or wrong on the input board.
   // I don't love this solution, and this data would probably be better stored in the context,
   // but I'm trying to keep the context as clean as possible, and so this is a quick and dirty solution.
-  const { correctGuesses, incorrectGuesses } = useMemo(() => {
+  const { correctGuesses, incorrectGuesses, misplacedGuesses } = useMemo(() => {
     const correctSet = new Set<string>();
     const incorrectSet = new Set<string>();
+    const misplacedSet = new Set<string>();
 
     const solutionChars = currentPuzzle?.solutionEquation.split("");
 
     currentPuzzle?.attempts.forEach((attempt) => {
       const attemptChars = attempt.split("");
+      const solutionCharCount = new Map<string, number>();
+
+      // Count occurrences of each character in solution
+      solutionChars.forEach((char) => {
+        solutionCharCount.set(char, (solutionCharCount.get(char) || 0) + 1);
+      });
 
       attemptChars.forEach((char, index) => {
         if (char === solutionChars[index]) {
-          correctSet.add(char); // Add to correct if match
-        } else {
-          incorrectSet.add(char); // Otherwise, add to incorrect
+          correctSet.add(char); // Correct position
+          solutionCharCount.set(char, (solutionCharCount.get(char) || 0) - 1);
+        }
+      });
+
+      // Check for misplaced guesses (exists in solution but wrong position)
+      attemptChars.forEach((char, index) => {
+        if (
+          char !== solutionChars[index] &&
+          solutionChars.includes(char) &&
+          (solutionCharCount.get(char) || 0) > 0
+        ) {
+          misplacedSet.add(char); // Misplaced
+          solutionCharCount.set(char, (solutionCharCount.get(char) || 0) - 1);
+        } else if (!solutionChars.includes(char)) {
+          incorrectSet.add(char); // Incorrect
         }
       });
     });
@@ -66,6 +86,7 @@ const MathInputGrid: React.FC = () => {
     return {
       correctGuesses: correctSet,
       incorrectGuesses: incorrectSet,
+      misplacedGuesses: misplacedSet,
     };
   }, [currentPuzzle?.attempts, currentPuzzle?.solutionEquation]);
 
@@ -82,6 +103,9 @@ const MathInputGrid: React.FC = () => {
               className={classNames(
                 buttonClassName,
                 correctGuesses.has(number) && "bg-green-500",
+                misplacedGuesses.has(number) &&
+                  currentPuzzle?.difficulty !== "hard" &&
+                  "bg-yellow-400",
                 incorrectGuesses.has(number) && "bg-gray-400"
               )}
               key={number}
@@ -99,6 +123,9 @@ const MathInputGrid: React.FC = () => {
               className={classNames(
                 buttonClassName,
                 correctGuesses.has(operator) && "bg-green-500",
+                misplacedGuesses.has(operator) &&
+                  currentPuzzle?.difficulty !== "hard" &&
+                  "bg-yellow-400",
                 incorrectGuesses.has(operator) && "bg-gray-400"
               )}
               key={operator}

@@ -75,4 +75,6 @@ This command will open the Cypress dashboard, where you can run the tests in an 
 
 - Due to compatibility issues between NextJS and Cypress component tests, I ran some unit tests as part of the more "end-to-end" tests, particularly for the StatsCard and DifficultyToggle components.
 
-- Also, I deliberately did not add rules, as they were obviously understood as part of the assignment.
+- I deliberately did not add rules, as they were obviously understood as part of the assignment.
+
+- Some decisions that I was iffy about, such as only showing green/grey on the input board versus showing green, yellow, and grey, I deferred to the official Mathler.com implementation (in which case they did the latter, even thought the former makes a bit more sense IMO).
