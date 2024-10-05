@@ -58,6 +58,7 @@ function StatsOpenerBubble() {
       <button
         onClick={() => setIsOpen(true)}
         className="bg-white shadow-lg p-2 px-3 rounded-md flex flex-col justify-between"
+        data-testid="stats-modal-opener"
       >
         <div className="text-xs font-medium text-gray-400">Stats</div>
         <svg

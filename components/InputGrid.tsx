@@ -86,6 +86,7 @@ const MathInputGrid: React.FC = () => {
               )}
               key={number}
               onClick={() => addTileValue(String(number))}
+              data-testid={`input-button-${number}`}
             >
               {number}
             </button>
@@ -102,6 +103,7 @@ const MathInputGrid: React.FC = () => {
               )}
               key={operator}
               onClick={() => addTileValue(operator)}
+              data-testid={`input-button-${operator}`}
             >
               {operator}
             </button>
@@ -113,15 +115,20 @@ const MathInputGrid: React.FC = () => {
             className={classNames(
               buttonClassName,
               // if current row is full, animate the button
-              boardValues[currentRowIndex][
-                boardValues[currentRowIndex].length - 1
+              boardValues[currentRowIndex]?.[
+                boardValues[currentRowIndex]?.length - 1
               ] !== "" && "animate-bounce"
             )}
             onClick={submitAttempt}
+            data-testid="input-grid-submit-button"
           >
             Enter
           </button>
-          <button className={buttonClassName} onClick={deletePreviousTileValue}>
+          <button
+            className={buttonClassName}
+            onClick={deletePreviousTileValue}
+            data-testid="input-grid-delete-button"
+          >
             Delete
           </button>
         </div>

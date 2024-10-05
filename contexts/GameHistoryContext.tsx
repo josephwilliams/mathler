@@ -15,8 +15,9 @@ const loadGameData = (): {
       localStorage.getItem("pastPuzzles") || "[]"
     ) as Puzzle[];
 
-    // Validate the structure of currentPuzzle and pastPuzzles
-    if (!validatePuzzleShape(currentPuzzle)) {
+    // Validate the structure of currentPuzzle and pastPuzzles.
+    // NOTE: The first time  app is run, currentPuzzle will be null and pastPuzzles will be an empty array.
+    if (!validatePuzzleShape(currentPuzzle) && currentPuzzle !== null) {
       throw new Error("Invalid currentPuzzle structure");
     }
 
@@ -62,7 +63,6 @@ const saveGameData = (
   }
 };
 
-// Context type
 interface GameHistoryContextType {
   currentPuzzle: Puzzle | null;
   pastPuzzles: Puzzle[];
@@ -70,12 +70,10 @@ interface GameHistoryContextType {
   generateNewPuzzle: () => void;
 }
 
-// Create the GameHistoryContext
 const GameHistoryContext = createContext<GameHistoryContextType | undefined>(
   undefined
 );
 
-// Provider component to manage game state
 export const GameHistoryProvider = ({
   children,
 }: {

@@ -8,6 +8,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [119, "-", 41].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 12,
@@ -15,6 +16,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [21, "/", 7, "+", 9].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 17,
@@ -22,6 +24,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [90, "/", 9, "+", 7].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 21,
@@ -29,6 +32,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [18, "+", 6, "-", 3].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 39,
@@ -36,6 +40,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [24, "*", 2, "-", 9].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 65,
@@ -43,6 +48,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [112, "-", 47].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 72,
@@ -50,6 +56,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [27, "*", 3, "-", 9].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 32,
@@ -57,6 +64,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [28, "-", 3, "+", 7].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 27,
@@ -64,6 +72,7 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [95, "/", 5, "+", 8].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
   {
     targetNumber: 73,
@@ -71,5 +80,6 @@ export const predefinedPuzzles: Puzzle[] = [
     solutionEquation: [132, "-", 59].join(""),
     state: "idle",
     attempts: [],
+    difficulty: "normal",
   },
 ];

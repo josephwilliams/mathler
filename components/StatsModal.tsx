@@ -31,7 +31,7 @@ const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
         <div key={num} className="flex items-center">
           <div className="w-2 text-left mr-2 text-gray-600">{num}</div>
           <div
-            className="bg-blue-500 h-6 flex items-center rounded-md"
+            className="bg-blue-500 h-5 flex items-center rounded-md"
             style={{
               width: `${(attemptsDistribution[num] / totalPuzzles) * 100}%`,
             }}
@@ -48,6 +48,7 @@ const AttemptsCountsGraph = ({ totalPuzzles }: { totalPuzzles: number }) => {
 
 export const StatsCard: React.FC = () => {
   const { pastPuzzles, currentPuzzle } = useGameHistory();
+
   const puzzlesToConsider = currentPuzzle
     ? [...pastPuzzles, currentPuzzle]
     : pastPuzzles;

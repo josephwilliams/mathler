@@ -22,11 +22,20 @@ interface BoardContextType {
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
 
 export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
-  // NOTE: Get currentPuzzle from localStorage.
   const { currentPuzzle, updatePuzzleState } = useGameHistory();
 
   const [boardDifficulty, setBoardDifficulaty] =
     useState<PuzzleDifficulty>("normal");
+
+  useEffect(() => {
+    if (
+      currentPuzzle?.difficulty &&
+      (currentPuzzle?.difficulty === "hard" ||
+        currentPuzzle?.difficulty === "normal")
+    ) {
+      setBoardDifficulaty(currentPuzzle?.difficulty);
+    }
+  }, [currentPuzzle?.difficulty]);
 
   function updateBoardDifficulty(difficulty: PuzzleDifficulty) {
     // NOTE: Only allow changing puzzle difficutly if puzzle is not yet begun, i.e. "idle".
@@ -34,6 +43,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
       currentPuzzle.state === "idle" &&
       (difficulty === "normal" || difficulty === "hard")
     ) {
+      // update the boardDifficulty state in local storage
+      updatePuzzleState({
+        ...currentPuzzle,
+        difficulty,
+      });
+
       setBoardDifficulaty(difficulty);
     }
   }
@@ -54,7 +69,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         ? currentPuzzle?.attempts?.length
         : 0;
     });
-  }, [currentPuzzle?.index]);
+  }, [currentPuzzle]);
 
   // NOTE: This is deprecated and I'm now allowing anything but I thought I'd leave
   // it just to note some of the thought processes while coding this.
@@ -109,7 +124,10 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
     const attemptString = boardValues[currentRowIndex].join("");
     // Ensure that all 6 tiles are filled before checking attempt
     if (attemptString.length !== 6) {
-      console.log("Please fill all 6 tiles before submitting your attempt.");
+      console.log(
+        "Please fill all 6 tiles before submitting your attempt.",
+        attemptString
+      );
       return;
     }
 

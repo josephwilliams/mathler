@@ -14,9 +14,13 @@ const Board: React.FC = () => {
             {currentPuzzle.targetNumber}
           </span>
         </div>
-        <div className="grid grid-rows-6 gap-2">
+        <div className="grid grid-rows-6 gap-2" data-testid="board-values">
           {boardValues.map((rowValues, rowIndex) => (
-            <div key={rowIndex} className="grid grid-cols-6 gap-2">
+            <div
+              key={rowIndex}
+              className="grid grid-cols-6 gap-2"
+              data-testid={`board-row-${rowIndex}`}
+            >
               {rowValues.map((tileValue, tileIndex) => {
                 const isCurrentRow = rowIndex === currentRowIndex;
                 // Active tile is the first empty tile in the current row.
