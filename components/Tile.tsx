@@ -33,6 +33,7 @@ const Tile: React.FC<TileProps> = memo(
           },
           "w-12 h-12 flex items-center justify-center text-lg font-bold rounded-md"
         )}
+        data-testid={`tile-${tileValue}`}
       >
         {tileValue}
       </div>

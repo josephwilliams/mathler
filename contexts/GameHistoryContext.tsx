@@ -7,13 +7,48 @@ const loadGameData = (): {
   currentPuzzle: Puzzle | null;
   pastPuzzles: Puzzle[];
 } => {
-  const currentPuzzle = JSON.parse(
-    localStorage.getItem("currentPuzzle") || "null"
-  ) as Puzzle | null;
-  const pastPuzzles = JSON.parse(
-    localStorage.getItem("pastPuzzles") || "[]"
-  ) as Puzzle[];
-  return { currentPuzzle, pastPuzzles };
+  try {
+    const currentPuzzle = JSON.parse(
+      localStorage.getItem("currentPuzzle") || "null"
+    ) as Puzzle | null;
+    const pastPuzzles = JSON.parse(
+      localStorage.getItem("pastPuzzles") || "[]"
+    ) as Puzzle[];
+
+    // Validate the structure of currentPuzzle and pastPuzzles
+    if (!validatePuzzleShape(currentPuzzle)) {
+      throw new Error("Invalid currentPuzzle structure");
+    }
+
+    if (
+      !Array.isArray(pastPuzzles) ||
+      !pastPuzzles.every(validatePuzzleShape)
+    ) {
+      throw new Error("Invalid pastPuzzles structure");
+    }
+
+    return { currentPuzzle, pastPuzzles };
+  } catch (error) {
+    console.warn("Invalid game data detected, resetting storage:", error);
+    // Clear the invalid data from localStorage
+    localStorage.removeItem("currentPuzzle");
+    localStorage.removeItem("pastPuzzles");
+
+    // Return default empty values
+    return { currentPuzzle: null, pastPuzzles: [] };
+  }
+};
+
+// NOTE: If any of the localStorage data is corrupted, we want puzzles to be reset to default values.
+const validatePuzzleShape = (puzzle: any): puzzle is Puzzle => {
+  return (
+    puzzle &&
+    typeof puzzle === "object" &&
+    typeof puzzle.targetNumber === "number" &&
+    typeof puzzle.solutionEquation === "string" &&
+    Array.isArray(puzzle.attempts) &&
+    typeof puzzle.state === "string"
+  );
 };
 
 // Save game data to localStorage

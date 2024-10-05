@@ -72,7 +72,10 @@ const MathInputGrid: React.FC = () => {
   return (
     currentPuzzle?.state !== "succeeded" &&
     currentPuzzle?.state !== "failed" && (
-      <div className="w-full bg-white shadow-lg p-5 rounded-md flex flex-col gap-3">
+      <div
+        className="w-full bg-white shadow-lg p-5 rounded-md flex flex-col gap-3"
+        data-testid="input-grid"
+      >
         <div className="flex gap-2 items-center justify-between">
           {["0", "1", "2", "3", "4", "5", "6"].map((number) => (
             <button
