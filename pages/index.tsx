@@ -1,3 +1,4 @@
+import React from "react";
 import { GameHistoryProvider } from "@/contexts/GameHistoryContext";
 import { BoardProvider } from "@/contexts/BoardContext";
 import InputGrid from "@/components/InputGrid";
