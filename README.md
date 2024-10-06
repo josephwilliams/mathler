@@ -63,6 +63,14 @@ yarn cypress:open
 
 This command will open the Cypress dashboard, where you can run the tests in an interactive environment.
 
+There's also some component and unit tests done via Jest. These are in the `__test__` dir and can be run via:
+
+```bash
+yarn test
+```
+
+While these are not comprehensive, they do provide an overview of some of the basic sorts of component tests, and they test the key internal functions, such as `createPuzzle` and `generateRandomEquationWithLength`, that are integral to the app.
+
 ## Some thoughts and gotchyas
 
 - When setting board values, I usually update the entire array of arrays. If the board were larger than 6x6 or of an unknown size, I'd likely optimize this to only update the specific row of tiles. But since this is a frontend-focused challenge with a fixed number of indices, this approach works fine for now.
