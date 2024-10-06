@@ -1,7 +1,7 @@
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { generateRandomEquationWithLength } from "@/lib/equations";
 import { predefinedPuzzles } from "@/lib/predefined-puzzles";
 import { createPuzzle, Puzzle } from "@/lib/puzzles";
-import React, { createContext, useContext, useState, useEffect } from "react";
 
 const ROW_LENGTH = 6;
 

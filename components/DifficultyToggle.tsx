@@ -1,3 +1,4 @@
+import React from "react";
 import { useBoard } from "@/contexts/BoardContext";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 import { PuzzleDifficulty } from "@/lib/puzzles";
@@ -23,7 +24,7 @@ export default function DifficultyDropdown() {
         onChange={handleSelectChange}
         className="text-xs rounded-md bg-gray-100 py-1 pl-1 pr-3 outline-none h-[24px]"
         disabled={currentPuzzle?.state !== "idle"}
-        id="difficulty-toggle"
+        data-testid="difficulty-toggle"
       >
         <option value="normal">Normal</option>
         <option

@@ -55,7 +55,7 @@ describe("DifficultyToggle Component", () => {
     cy.reload();
 
     // Get the difficulty select element and set it to "hard"
-    cy.get("#difficulty-toggle").select("hard");
+    cy.get('[data-testid="difficulty-toggle"]').select("hard");
 
     // Simulate adding tiles to the first row
     cy.get('[data-testid="input-button-2"]').click();

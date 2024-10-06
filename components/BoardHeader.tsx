@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DifficultyToggle from "./DifficultyToggle";
 import { useGameHistory } from "@/contexts/GameHistoryContext";
 import ModalComponent from "./Modal";
@@ -6,7 +6,7 @@ import { StatsCard, StatsModal } from "./StatsModal";
 import ConfettiExplosion from "react-confetti-explosion";
 import Link from "next/link";
 
-function TitleBubble() {
+export function TitleBubble() {
   return (
     <div className="bg-white shadow-lg px-2 py-1 rounded-md flex gap-1 flex-1">
       <div className=" flex flex-col justify-center flex-1">
@@ -51,7 +51,7 @@ function TitleBubble() {
   );
 }
 
-function StatsOpenerBubble() {
+export function StatsOpenerBubble() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
