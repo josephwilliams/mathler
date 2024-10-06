@@ -82,6 +82,13 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   // 3. Non-num chars (operators) cannot be one after another. There
   // must be a number char between them.
   const addTileValue = (value: string) => {
+    if (
+      currentPuzzle.state === "succeeded" ||
+      currentPuzzle.state === "failed"
+    ) {
+      return;
+    }
+
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
 
@@ -107,6 +114,13 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const deletePreviousTileValue = () => {
+    if (
+      currentPuzzle.state === "succeeded" ||
+      currentPuzzle.state === "failed"
+    ) {
+      return;
+    }
+
     setBoardValues((prevBoard) => {
       const newBoard = [...prevBoard];
       const currentRow = [...newBoard?.[currentRowIndex]];

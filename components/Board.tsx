@@ -4,7 +4,6 @@ import Tile from "./Tile";
 
 const Board: React.FC = () => {
   const { boardValues, currentPuzzle, currentRowIndex } = useBoard();
-  console.log("> currentPuzzle", currentPuzzle);
 
   return (
     currentPuzzle && (

@@ -11,10 +11,13 @@ const AttemptsCountsGraph = ({
   includeCurrentPuzzle?: boolean;
 }) => {
   const { pastPuzzles, currentPuzzle } = useGameHistory();
-  const puzzlesToConsider = [
-    ...pastPuzzles,
-    ...(includeCurrentPuzzle && currentPuzzle ? [currentPuzzle] : []),
-  ];
+  const puzzlesToConsider = useMemo(
+    () => [
+      ...pastPuzzles,
+      ...(includeCurrentPuzzle && currentPuzzle ? [currentPuzzle] : []),
+    ],
+    [pastPuzzles, currentPuzzle, includeCurrentPuzzle]
+  );
 
   const attemptsDistribution = useMemo(() => {
     const counts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
@@ -66,10 +69,13 @@ export const StatsCard = ({
   includeCurrentPuzzle?: boolean;
 }) => {
   const { pastPuzzles, currentPuzzle } = useGameHistory();
-  const puzzlesToConsider = [
-    ...pastPuzzles,
-    ...(includeCurrentPuzzle && currentPuzzle ? [currentPuzzle] : []),
-  ];
+  const puzzlesToConsider = useMemo(
+    () => [
+      ...pastPuzzles,
+      ...(includeCurrentPuzzle && currentPuzzle ? [currentPuzzle] : []),
+    ],
+    [pastPuzzles, currentPuzzle, includeCurrentPuzzle]
+  );
 
   // Memoize total puzzles, win rate, and average attempts
   const { totalPuzzles, winRate, averageAttempts } = useMemo(() => {

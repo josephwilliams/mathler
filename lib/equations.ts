@@ -1,41 +1,58 @@
 import { simplify, evaluate } from "mathjs";
 
+// NOTE: This is not a true "random" equation generator, as certain concessions
+// are made to ensure that the computation doesn't hang while continuously
+// regenerating itself to find a valid target value. This function does, however,
+// generate psuedo-random equations that are generally humanly solvable (i.e.
+// not overly complex or overly large numbers), with a valid integer target value,
+// and with opportunities for cumulative solutions (since there's often multiple operators).
 export function generateRandomEquationWithLength(length) {
   const operators = ["+", "-", "*", "/"];
   let equation = "";
 
-  // Ensure first character is a number (1 to 999)
-  let randomValue = Math.floor(Math.random() * 999) + 1;
-  equation += randomValue;
+  // Generate the first number (1 or 2 digits)
+  const firstNumber =
+    Math.random() < 0.5
+      ? Math.floor(Math.random() * 9) + 1
+      : Math.floor(Math.random() * 90) + 10;
+  equation += firstNumber;
 
-  // Generate random equation of specified length
-  while (equation.length < length) {
-    const randomOperator =
+  // Add an operator
+  const randomOperator =
+    operators[Math.floor(Math.random() * operators.length)];
+  equation += randomOperator;
+
+  // Remaining length after the first number and operator
+  const remainingLength = length - equation.length;
+
+  // Decide whether to add a 3-digit number or more complexity
+  if (remainingLength === 3) {
+    // Add a 3-digit number
+    const threeDigitNumber = Math.floor(Math.random() * 900) + 100; // Random 3-digit number
+    equation += threeDigitNumber;
+  } else {
+    // Add a combination of numbers and an operator to create complexity
+    const secondNumber = Math.floor(Math.random() * 90) + 10; // 2-digit number
+    const secondOperator =
       operators[Math.floor(Math.random() * operators.length)];
+    const thirdNumber = Math.floor(Math.random() * 9) + 1; // 1-digit number
 
-    // Ensure the equation still has room for both operator and number
-    if (equation.length + 2 > length) {
-      break;
-    }
-
-    equation += randomOperator;
-
-    const remainingLength = length - equation.length;
-
-    // Decide if the next number should be one, two, or three digits based on the remaining length
-    if (remainingLength > 2) {
-      randomValue = Math.floor(Math.random() * 999) + 1; // Up to 3-digit number
-    } else if (remainingLength > 1) {
-      randomValue = Math.floor(Math.random() * 90) + 10; // Two-digit number
-    } else {
-      randomValue = Math.floor(Math.random() * 9) + 1; // Single-digit number
-    }
-
-    equation += randomValue;
+    equation += secondNumber + secondOperator + thirdNumber;
   }
 
-  // Use mathjs to safely evaluate the equation with proper operator precedence
-  const targetValue = evaluate(equation);
+  // Although technically possible to generate a target value with a decimal,
+  // that would be a bad user experience, so we'll only allow integer target values.
+  let targetValue;
+  try {
+    targetValue = evaluate(equation);
+    if (!Number.isInteger(targetValue)) {
+      // If the result is not an integer, regenerate the equation
+      return generateRandomEquationWithLength(length);
+    }
+  } catch (error) {
+    // In case of any mathjs errors, regenerate the equation
+    return generateRandomEquationWithLength(length);
+  }
 
   return {
     equation,
