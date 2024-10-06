@@ -1,4 +1,4 @@
-import { evaluate, simplify } from "mathjs";
+import { simplify } from "mathjs";
 
 export function generateRandomEquationWithCumulativeSolutions(target) {
   const operators = ["+", "-", "*", "/"];
