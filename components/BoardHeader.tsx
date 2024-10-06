@@ -123,7 +123,7 @@ export function ResultBubble() {
       >
         <div className="border-b-[1px] border-dotted border-gray-300 mb-3">
           {succeeded && (
-            <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
+            <div className="flex flex-col justify-center pl-0 py-3 pb-3 gap-1">
               <div className="flex items-center justify-center">
                 <ConfettiExplosion />
               </div>
@@ -139,7 +139,7 @@ export function ResultBubble() {
             </div>
           )}
           {failed && (
-            <div className="flex flex-col justify-center pl-0 px-8 py-3 pb-3 gap-1">
+            <div className="flex flex-col justify-center pl-0 py-3 pb-3 gap-1">
               <div className="text-lg">😭 You failed!</div>
               <div className="text-xs">The Solution:</div>
               <div className="text-md font-bold bg-gray-100 p-2 py-1 rounded-md">
@@ -148,7 +148,7 @@ export function ResultBubble() {
             </div>
           )}
         </div>
-        <StatsCard />
+        <StatsCard includeCurrentPuzzle />
       </ModalComponent>
       {(succeeded || failed) && <PlayAgainButtonBubble />}
     </>
