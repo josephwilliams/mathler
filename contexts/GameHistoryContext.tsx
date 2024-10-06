@@ -1,6 +1,9 @@
+import { generateRandomEquationWithLength } from "@/lib/equations";
 import { predefinedPuzzles } from "@/lib/predefined-puzzles";
-import { Puzzle } from "@/lib/puzzles";
+import { createPuzzle, Puzzle } from "@/lib/puzzles";
 import React, { createContext, useContext, useState, useEffect } from "react";
+
+const ROW_LENGTH = 6;
 
 // Load data from localStorage
 const loadGameData = (): {
@@ -113,11 +116,22 @@ export const GameHistoryProvider = ({
     if (isGameOver) {
       // Move the current puzzle to history
       const updatedPastPuzzles = [...pastPuzzles, currentPuzzle];
-      const nextPuzzleIndex =
-        currentPuzzle.index! < predefinedPuzzles.length - 1
-          ? currentPuzzle.index! + 1
-          : 0;
-      const newPuzzle = predefinedPuzzles[nextPuzzleIndex];
+      const hasCompletedPrefinedPuzzles =
+        currentPuzzle?.index >= predefinedPuzzles.length - 1;
+
+      let newPuzzle;
+      if (hasCompletedPrefinedPuzzles) {
+        const { equation, targetValue } =
+          generateRandomEquationWithLength(ROW_LENGTH);
+
+        newPuzzle = createPuzzle(
+          targetValue,
+          currentPuzzle?.index + 1,
+          equation
+        );
+      } else {
+        newPuzzle = predefinedPuzzles[currentPuzzle.index! + 1];
+      }
 
       setCurrentPuzzle(newPuzzle);
       setPastPuzzles(updatedPastPuzzles);
