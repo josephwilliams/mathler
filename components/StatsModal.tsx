@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo } from "react";
 import ModalComponent from "./Modal";
 import { useGameHistory } from "@/contexts/GameHistoryContext";

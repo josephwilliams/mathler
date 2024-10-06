@@ -38,7 +38,7 @@ const ModalComponent = ({
     >
       <div className="flex justify-between items-center pb-2 border-b-[1px] border-gray-300 border-dotted">
         <h2>{title}</h2>
-        <button onClick={onClickClose}>
+        <button onClick={onClickClose} data-testid="modal-close-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
