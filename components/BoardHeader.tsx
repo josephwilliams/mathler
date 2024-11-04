@@ -27,7 +27,7 @@ export function TitleBubble() {
           </svg>
           Mathler
         </h1>
-        <h2 className="pl-1 text-xs text-gray-400">For Dynamic, by Joseph.</h2>
+        <h2 className="pl-1 text-xs text-gray-400">Wordle with equations.</h2>
       </div>
       <Link
         className="flex items-end text-gray-400"
