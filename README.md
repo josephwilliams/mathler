@@ -2,13 +2,12 @@
 
 **Github**: [Github](https://github.com/josephwilliams/mathler)
 **Live App**: [Mathler](https://mathler-chi.vercel.app/)  
-**Challenge Overview**: [Dynamic's Take Home Frontend](https://dynamic-labs.notion.site/Dynamic-s-Take-Home-Frontend-438fdbcfc950403484988468e3db7fc0)
 
 ---
 
 ## Introduction
 
-Hello Dynamic team! Thanks for taking the time to check out my app, **Mathler** – a number-based puzzle game inspired by the mechanics of Wordle. You can explore it live at the [link above](https://mathler-chi.vercel.app/) or, if you'd prefer to run it locally, follow the instructions below to get started.
+**Mathler** – a number-based puzzle game inspired by the mechanics of Wordle. You can explore it live at the [link above](https://mathler-chi.vercel.app/) or, if you'd prefer to run it locally, follow the instructions below to get started.
 
 1. **Clone the repository**
 
